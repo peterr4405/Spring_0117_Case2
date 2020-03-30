@@ -1,0 +1,18 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div id="menu">
+    <div class="pure-menu">
+        <a class="pure-menu-heading" href="/SpringMVC/portfolio/index.jsp">${sessionScope.investor.username}</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="/SpringMVC/portfolio/investor.jsp" class="pure-menu-link">Investor</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/portfolio/classify.jsp" class="pure-menu-link">Classify</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/portfolio/tstock.jsp" class="pure-menu-link">TStock</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/portfolio/watch.jsp" class="pure-menu-link">Watch</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/portfolio/watchlist.jsp" class="pure-menu-link">Watch List</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/portfolio/asset.jsp" class="pure-menu-link">Asset</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/mvc/portfolio/logout" class="pure-menu-link">Logout</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/mvc/portfolio/price/refresh" class="pure-menu-link">Refresh Price</a></li>
+            <li class="pure-menu-item"><a href="/SpringMVC/mvc/portfolio/price/histquotes/^TWII" class="pure-menu-link">History Price</a></li>
+        </ul>
+    </div>
+</div>
