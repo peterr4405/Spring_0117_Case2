@@ -1,5 +1,6 @@
 package com.web.portfolio.controller;
 
+import com.web.portfolio.entity.Classify;
 import com.web.portfolio.entity.TStock;
 import com.web.portfolio.service.PortfolioService;
 import java.util.Map;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/portfolio/tstock")
 public class TStockController {
-    
     @Autowired
     private PortfolioService service;
     
@@ -29,44 +29,39 @@ public class TStockController {
     @PostMapping(value = {"/", "/add"})
     @Transactional
     public TStock add(@RequestBody Map<String, String> map) {
-        
-        TStock tStock = new TStock();
-        tStock.setName(map.get("name"));
-        tStock.setSymbol(map.get("symbol"));
-        System.out.println(map.get("classify_id"));
-        
-        service.gettStockRepository().save(tStock);
-        
-        return tStock;
+        Classify classify = service.getClassifyRepository().findOne(Long.parseLong(map.get("classify_id")));
+        TStock ts = new TStock();
+        ts.setName(map.get("name"));
+        ts.setSymbol(map.get("symbol"));
+        ts.setClassify(classify);
+        service.gettStockRepository().save(ts);
+        return ts;
     }
     
+    @PutMapping(value = {"/", "/update"})
     @Transactional
+    public TStock update(@RequestBody Map<String, String> map) {
+        Classify classify = service.getClassifyRepository().findOne(Long.parseLong(map.get("classify_id")));
+        TStock ts = service.gettStockRepository().findOne(Long.parseLong(map.get("id")));
+        ts.setName(map.get("name"));
+        ts.setSymbol(map.get("symbol"));
+        ts.setClassify(classify);
+        service.gettStockRepository().update(Long.parseLong(map.get("id")), map.get("name"), map.get("symbol"), classify.getId());
+        return ts;
+    }
+    
     @DeleteMapping(value = {"/{id}", "/delete/{id}"})
+    @Transactional
     public Boolean delete(@PathVariable("id") Long id) {
         service.gettStockRepository().delete(id);
         return true;
     }
     
-    @Transactional
     @GetMapping(value = {"/{id}", "/get/{id}"})
+    @Transactional
     public TStock get(@PathVariable("id") Long id) {
         TStock tStock = service.gettStockRepository().findOne(id);
-        
         return tStock;
-    }
-    
-    @PutMapping(value = {"/{id}", "/update/{id}"})
-    @Transactional
-    public Boolean update(@PathVariable("id") Long id, @RequestBody Map<String, String> map) {
-        TStock tStock = get(id);
-        if (tStock == null) {
-            return false;
-        }
-        tStock.setName(map.get("name"));
-        tStock.setSymbol(map.get("symbol"));
-        
-        service.gettStockRepository().update(id, tStock.getName(), tStock.getSymbol());
-        return true;
     }
     
 }

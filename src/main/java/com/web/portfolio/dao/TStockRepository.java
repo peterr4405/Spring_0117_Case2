@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository(value = "tStockRepository")
-public interface TStockRepository extends CrudRepository<TStock, Long>{
-    
+public interface TStockRepository extends CrudRepository<TStock, Long> {
+
     @Transactional
     @Modifying
-    @Query(value = "UPDATE TStock SET name=?2, symbol=?3 WHERE id=?1")
-    public void update(Long id, String name, String symbol);
+    @Query(value = "UPDATE TStock SET name=?2, symbol=?3, classify_id=?4 WHERE id=?1", nativeQuery = true)
+    public void update(Long id, String name, String symbol, Long classify_id);
 }

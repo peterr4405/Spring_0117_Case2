@@ -16,5 +16,4 @@ public interface ClassifyRepository extends CrudRepository<Classify, Long> {
     @Modifying
     @Query(value = "UPDATE Classify SET name=?2, transaction=?3 WHERE id=?1")
     public void update(Long id, String name, Boolean transaction);
-
 }
