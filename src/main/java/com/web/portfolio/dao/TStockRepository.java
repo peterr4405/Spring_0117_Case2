@@ -13,5 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository(value = "tStockRepository")
 public interface TStockRepository extends CrudRepository<TStock, Long>{
     
-
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE TStock SET name=?2, symbol=?3 WHERE id=?1")
+    public void update(Long id, String name, String symbol);
 }

@@ -8,14 +8,39 @@
     <packaging>war</packaging>
 
     <name>Spring_0117_Case2</name>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+<!-- Maven新版需要設定http轉為https-->   
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.25.RELEASE</spring.version>
+
+        
     </properties>
     
+
+    
     <dependencies>
+        
+        
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.core</artifactId>
@@ -84,7 +109,7 @@
             <version>2.6</version>
         </dependency>
         
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
             <version>10.10.1.1</version>
@@ -220,7 +245,11 @@
         
     </dependencies>
 
+
+
     <build>
+      
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

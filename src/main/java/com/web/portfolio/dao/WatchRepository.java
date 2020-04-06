@@ -15,4 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository(value = "watchRepository")
 public interface WatchRepository extends CrudRepository<Watch, Long>{
 
+        @Transactional
+    @Modifying
+    @Query(value = "UPDATE Watchj SET name=?2 WHERE id=?1")
+    public void update(Long id, String name);
+    
 }
