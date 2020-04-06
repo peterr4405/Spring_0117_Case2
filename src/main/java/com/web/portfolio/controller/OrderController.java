@@ -28,16 +28,56 @@ public class OrderController {
     @GetMapping(value = {"/buy/{tstock_id}/{amount}"})
     @Transactional
     public String buy(HttpSession session, @PathVariable("tstock_id") Long tstock_id, @PathVariable("amount") Integer amount) {
-        // Block of code
-        return null;
+        
+        Investor login_inInvestor = (Investor)session.getAttribute("investor");
+        Investor investor = service.getInvestorRepository().findOne(login_inInvestor.getId());
+        
+        if(investor == null) return "Investor None";
+        TStock ts = service.gettStockRepository().findOne(tstock_id);
+        if(ts == null) return "TStock None";
+        
+        int buyTotalCost = (int)(ts.getPrice().doubleValue() * amount);
+        int balance = investor.getBalance() - buyTotalCost;
+        if(balance <0) return "餘額不足";
+        
+        investor.setBalance(balance);
+        
+        Portfolio po = new Portfolio();
+        po.setInvestor(investor);
+        po.settStock(ts);
+        po.setCost(ts.getPrice().doubleValue());
+        po.setAmount(amount);
+        po.setDate(new Date());
+        
+        investor.getPortfolios().add(po);
+        
+        service.getInvestorRepository().save(investor);
+        service.getPortfolioRepository().save(po);
+        
+        return "OK";
     }
     
     // 賣出
     @GetMapping(value = {"/sell/{id}/{amount}"})
     @Transactional
     public String sell(HttpSession session, @PathVariable("id") Long id, @PathVariable("amount") Integer amount) {
-        // Block of code
-        return null;
+        Investor login_investor = (Investor)session.getAttribute("investor");
+        Investor investor = service.getInvestorRepository().findOne(login_investor.getId());
+        if(investor == null) return "Investor None";
+        
+        Portfolio po = service.getPortfolioRepository().findOne(id);
+        if(po == null) return "Portfolio None";
+        
+        po.setAmount(po.getAmount() - amount);
+        
+        // 回滾利潤
+        int profit = (int)(amount * po.gettStock().getPrice().doubleValue());
+        investor.setBalance(investor.getBalance() + profit);
+        
+        
+        service.getPortfolioRepository().save(po);
+        service.getInvestorRepository().save(investor);
+        return "OK";
     }
 
     

@@ -20,14 +20,28 @@ public class ChartController {
     
     @GetMapping(value = {"/asset/{id}"})
     public Object asset(@PathVariable("id") Long id) {
-        // Block of code
-        return null;
+        String sql = "SELECT c.name, SUM(p.amount * s.price) as subtotal "
+                   + "FROM Classify c, Portfolio p, TStock s "
+                   + "WHERE p.investor.id=:id AND p.tStock.id = s.id AND s.classify.id = c.id "
+                   + "GROUP BY c.name";
+        Query query = em.createQuery(sql);
+        query.setParameter("id", id);
+        List list = query.getResultList();
+        System.out.println(list);
+        return list;
     }
     
     @GetMapping(value = {"/profit/{id}"})
     public List profit(@PathVariable("id") Long id) {
-        // Block of code
-        return null;
+        String sql = "SELECT c.name, SUM(p.amount * (s.price-p.cost)) as subtotal "
+                   + "FROM Classify c, Portfolio p, TStock s "
+                   + "WHERE p.investor.id=:id AND p.tStock.id = s.id AND s.classify.id = c.id "
+                   + "GROUP BY c.name";
+        Query query = em.createQuery(sql);
+        query.setParameter("id", id);
+        List list = query.getResultList();
+        System.out.println(list);
+        return list;
     }
     
 }

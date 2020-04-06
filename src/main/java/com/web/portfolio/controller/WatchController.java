@@ -30,15 +30,19 @@ public class WatchController {
     
     @GetMapping(value = {"/", "/query"})
     public Iterable<Watch> query() {
-        // block of code
-        return null;
+        
+        return service.getWatchRepository().findAll();
     }
     
     @PutMapping(value = {"/{id}", "/update/{id}"})
     @Transactional
     public Boolean update(@PathVariable("id") Long id, @RequestBody Map<String, String> map) {
-        // block of code
-        return null;
+       Watch watch = get(id);
+        if(watch == null) return false;
+        
+        watch.setName(map.get("name"));
+        service.getWatchRepository().save(watch);
+        return true;
     }
     
     @GetMapping(value = {"/{id}/add/{tstock_id}"})
